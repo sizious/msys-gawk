@@ -1,6 +1,6 @@
 diff -urN old/gawk-4.0.1/Makefile.am new/gawk-4.0.1/Makefile.am
 --- old/gawk-4.0.1/Makefile.am	2012-03-28 19:47:53 +0000
-+++ new/gawk-4.0.1/Makefile.am	2021-03-28 20:35:24 +0000
++++ new/gawk-4.0.1/Makefile.am	2021-08-29 14:13:01 +0000
 @@ -120,7 +120,7 @@
  dgawk_SOURCES = $(base_sources) eval_d.c profile.c cmd.h command.y debug.c
  
@@ -10,9 +10,48 @@ diff -urN old/gawk-4.0.1/Makefile.am new/gawk-4.0.1/Makefile.am
  dgawk_LDADD = $(LDADD) @LIBREADLINE@
  
  # Directory for gawk's data files. Automake supplies datadir.
+@@ -149,14 +149,14 @@
+ 	(cd $(DESTDIR)$(bindir); \
+ 	$(LN) gawk$(EXEEXT) gawk-$(VERSION)$(EXEEXT) 2>/dev/null ; \
+ 	$(LN) pgawk$(EXEEXT) pgawk-$(VERSION)$(EXEEXT) 2>/dev/null ; \
+-	if [ ! -f awk ]; \
+-	then	$(LN_S) gawk$(EXEEXT) awk; \
++	if [ ! -f awk$(EXEEXT) ]; \
++	then	$(LN_S) gawk$(EXEEXT) awk$(EXEEXT); \
+ 	fi; exit 0)
+ 
+ # Undo the above when uninstalling
+ uninstall-links:
+ 	(cd $(DESTDIR)$(bindir); \
+-	if [ -f awk ] && cmp awk gawk$(EXEEXT) > /dev/null; then rm -f awk; fi ; \
++	if [ -f awk$(EXEEXT) ] && cmp awk$(EXEEXT) gawk$(EXEEXT) > /dev/null; then rm -f awk$(EXEEXT); fi ; \
+ 	rm -f gawk-$(VERSION)$(EXEEXT) pgawk-$(VERSION)$(EXEEXT); exit 0)
+ 
+ uninstall-recursive: uninstall-links
+diff -urN old/gawk-4.0.1/Makefile.in new/gawk-4.0.1/Makefile.in
+--- old/gawk-4.0.1/Makefile.in	2012-03-28 20:03:23 +0000
++++ new/gawk-4.0.1/Makefile.in	2021-08-29 13:29:02 +0000
+@@ -1016,14 +1016,14 @@
+ 	(cd $(DESTDIR)$(bindir); \
+ 	$(LN) gawk$(EXEEXT) gawk-$(VERSION)$(EXEEXT) 2>/dev/null ; \
+ 	$(LN) pgawk$(EXEEXT) pgawk-$(VERSION)$(EXEEXT) 2>/dev/null ; \
+-	if [ ! -f awk ]; \
+-	then	$(LN_S) gawk$(EXEEXT) awk; \
++	if [ ! -f awk$(EXEEXT) ]; \
++	then	$(LN_S) gawk$(EXEEXT) awk$(EXEEXT); \
+ 	fi; exit 0)
+ 
+ # Undo the above when uninstalling
+ uninstall-links:
+ 	(cd $(DESTDIR)$(bindir); \
+-	if [ -f awk ] && cmp awk gawk$(EXEEXT) > /dev/null; then rm -f awk; fi ; \
++	if [ -f awk$(EXEEXT) ] && cmp awk$(EXEEXT) gawk$(EXEEXT) > /dev/null; then rm -f awk$(EXEEXT); fi ; \
+ 	rm -f gawk-$(VERSION)$(EXEEXT) pgawk-$(VERSION)$(EXEEXT); exit 0)
+ 
+ uninstall-recursive: uninstall-links
 diff -urN old/gawk-4.0.1/configure.ac new/gawk-4.0.1/configure.ac
 --- old/gawk-4.0.1/configure.ac	2012-03-28 20:01:23 +0000
-+++ new/gawk-4.0.1/configure.ac	2021-03-28 20:33:55 +0000
++++ new/gawk-4.0.1/configure.ac	2021-03-28 10:33:55 +0000
 @@ -40,7 +40,7 @@
  fi
  
@@ -35,7 +74,7 @@ diff -urN old/gawk-4.0.1/configure.ac new/gawk-4.0.1/configure.ac
  AC_CHECK_TYPE(ssize_t, int)
 diff -urN old/gawk-4.0.1/m4/intmax_t.m4 new/gawk-4.0.1/m4/intmax_t.m4
 --- old/gawk-4.0.1/m4/intmax_t.m4	2010-10-31 10:25:52 +0000
-+++ new/gawk-4.0.1/m4/intmax_t.m4	2021-03-28 20:37:01 +0000
++++ new/gawk-4.0.1/m4/intmax_t.m4	2021-03-28 10:37:01 +0000
 @@ -13,7 +13,7 @@
    AC_REQUIRE([gl_AC_HEADER_INTTYPES_H])
    AC_REQUIRE([gl_AC_HEADER_STDINT_H])
@@ -60,7 +99,7 @@ diff -urN old/gawk-4.0.1/test/Gentests new/gawk-4.0.1/test/Gentests
  
 diff -urN old/gawk-4.0.1/test/Makefile.am new/gawk-4.0.1/test/Makefile.am
 --- old/gawk-4.0.1/test/Makefile.am	2012-03-28 19:47:54 +0000
-+++ new/gawk-4.0.1/test/Makefile.am	2021-03-31 21:16:38 +0000
++++ new/gawk-4.0.1/test/Makefile.am	2021-08-29 14:49:56 +0000
 @@ -869,8 +869,8 @@
  GENTESTS_UNUSED = Makefile.in gtlnbufv.awk printfloat.awk
  

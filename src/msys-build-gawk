@@ -12,7 +12,7 @@
 ### hardcode PKG and patches tarball
 export PKG=gawk
 export VER=4.0.1
-export BLD=1
+export BLD=2
 export SYS=msys
 _sysver=$(uname -r)
 export SYSVER=${_sysver%%\(*}
@@ -205,7 +205,7 @@ if [ -n "$unpack" ] ; then
 
 
   cd ${srcdir}  
-  do_patch ${savedir}/999-gawk-4.0.1-1-msys.patch
+  do_patch ${savedir}/999-${FULLPKG}.patch
   cd ${savedir}
   srcdir=`cd $srcdir; pwd`
 fi
@@ -303,7 +303,7 @@ msys_package () {
   set_cmparg "${SRCPKG}"
   tar cv${cmparg} -f ./${SRCPKG} \
     ${PKG}-${VER}.tar.xz \
-    999-gawk-4.0.1-1-msys.patch \
+    999-${FULLPKG}.patch \
     msys-gawk.RELEASE_NOTES \
     msys-build-gawk
 }

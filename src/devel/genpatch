@@ -1,0 +1,4 @@
+#! /bin/bash -e
+
+diff -urN old new > ../999-gawk-4.0.1-2-msys.patch
+
